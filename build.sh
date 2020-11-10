@@ -15,8 +15,11 @@ sudo apt-get -q install -y bison flex libelf-dev cpio build-essential libssl-dev
 #
 
 echo "[+] Downloading kernel..."
-wget -q -c https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$KERNEL_VERSION.tar.gz
-[ -e linux-$KERNEL_VERSION ] || tar xzf linux-$KERNEL_VERSION.tar.gz
+if ! [ -f "linux-$KERNEL_VERSION.tar.gz" ]; then
+  # using https://mirror.bjtu.edu.cn/kernel/linux/kernel/v5.x/linux-5.4.tar.gz instead
+  wget -q -c https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-$KERNEL_VERSION.tar.gz
+  [ -e linux-$KERNEL_VERSION ] || tar xzf linux-$KERNEL_VERSION.tar.gz
+fi
 
 echo "[+] Building kernel..."
 make -C linux-$KERNEL_VERSION defconfig
